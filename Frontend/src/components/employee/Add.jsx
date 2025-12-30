@@ -33,7 +33,7 @@ const Add = () => {
     });
     try {
       const response = await axios.post(
-        "https://ems-lhfe.onrender.com/employee/add",
+        "http://localhost:3000/api/employee/add",
         formDataObj,
         {
           headers: {

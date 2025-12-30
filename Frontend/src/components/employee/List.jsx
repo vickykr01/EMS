@@ -12,7 +12,7 @@ const List = () => {
     const fetchEmployees = async () => {
       setEmpLoading(true);
       try {
-        const response = await axios.get("https://ems-lhfe.onrender.com/employee", {
+        const response = await axios.get("http://localhost:3000/api/employee", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -30,7 +30,7 @@ const List = () => {
               <img
                 width={40}
                 className="rounded-full"
-                src={`https://ems-lhfe.onrender.com/${emp.userId.profileImage}`}
+                src={`http://localhost:3000/${emp.userId.profileImage}`}
               />
             ),
             action: <EmployeeButtons id={emp._id} />,

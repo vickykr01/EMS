@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
 
         if (token) {
           const response = await axios.get(
-            "https://ems-lhfe.onrender.com/auth/verify",
+            "http://localhost:3000/api/auth/verify",
             {
               // ✅ FIXED typo: headers + Authorization
               headers: {

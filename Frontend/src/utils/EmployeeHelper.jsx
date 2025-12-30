@@ -40,7 +40,7 @@ export const columns = [
 export const fetchDepartments = async () => {
   let departments;
   try {
-    const response = await axios.get("https://ems-lhfe.onrender.com/department", {
+    const response = await axios.get("http://localhost:3000/api/department", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },

@@ -18,7 +18,7 @@ const AddDepartment = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://ems-lhfe.onrender.com/department/add",
+        "http://localhost:3000/api/department/add",
         department,
         {
           headers: {

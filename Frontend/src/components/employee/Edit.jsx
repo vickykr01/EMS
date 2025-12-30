@@ -27,7 +27,7 @@ const Edit = () => {
     const fetchemployee = async () => {
       try {
         const response = await axios.get(
-          `https://ems-lhfe.onrender.com/employee/${id}`,
+          `http://localhost:3000/api/employee/${id}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -63,7 +63,7 @@ const Edit = () => {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `https://ems-lhfe.onrender.com/employee/${id}`,
+        `http://localhost:3000/api/employee/${id}`,
         employee,
         {
           headers: {
