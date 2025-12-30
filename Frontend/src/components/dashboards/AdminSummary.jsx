@@ -1,5 +1,5 @@
 import React from "react";
-import SummaryCard from "./summaryCard";
+import SummaryCard from "./SummaryCard.jsx";
 import {
   FaBuilding,
   FaCheckCircle,
