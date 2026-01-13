@@ -7,6 +7,7 @@ const authRouter = require("./routes/auth.js");
 const departmentRouter = require("./routes/department.js");
 const employeeRouter = require("./routes/employee.js");
 const salaryRouter = require("./routes/salary.js");
+const leaveRouter = require("./routes/leave.js");
 const app = express();
 connectDatabase();
 
@@ -18,6 +19,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/department", departmentRouter);
 app.use("/api/employee", employeeRouter);
 app.use("/api/salary", salaryRouter);
+app.use("/api/leave", leaveRouter);
 
 const port = process.env.PORT;
 
