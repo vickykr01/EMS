@@ -55,7 +55,7 @@ const Sidebar = () => {
         </NavLink>
 
         <NavLink
-          to="/employee-dashboard/salary"
+          to={`/employee-dashboard/salary/${uesr._id}`}
           className={({ isActive }) =>
             `${
               isActive ? "bg-teal-500" : " "
