@@ -14,7 +14,7 @@ const View = () => {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
-          }
+          },
         );
         if (response.data.success) {
           setLeave(response.data.leave);
@@ -74,7 +74,7 @@ const View = () => {
           </div>
         </div>
       ) : (
-        <div>Loading...</div>
+        <div>Loading..</div>
       )}
     </>
   );
