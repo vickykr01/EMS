@@ -10,29 +10,37 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const verifyUser = async () => {
       try {
-        // ✅ FIXED: token must be declared
         const token = localStorage.getItem("token");
 
-        if (token) {
-          const response = await axios.get(
-            "http://localhost:3000/api/auth/verify",
-            {
-              // ✅ FIXED typo: headers + Authorization
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-
-          if (response.data.success) {
-            setUser(response.data.user);
-          }
-        } else {
+        if (!token) {
           setUser(null);
+          return;
+        }
+
+        const response = await axios.get(
+          "http://localhost:3000/api/auth/verify",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        if (response.data.success) {
+          setUser(response.data.user);
+        } else {
+          // Token valid but user not found
+          console.warn("Token valid but user not found:", response.data);
+          setUser(null);
+          localStorage.removeItem("token"); // Remove invalid token
         }
       } catch (error) {
-        console.log(error);
+        console.error(
+          "Token verification failed:",
+          error.response?.data || error,
+        );
         setUser(null);
+        localStorage.removeItem("token"); // Remove invalid/expired token
       } finally {
         setLoading(false);
       }
@@ -41,8 +49,9 @@ export const AuthProvider = ({ children }) => {
     verifyUser();
   }, []);
 
-  const login = (user) => {
+  const login = (user, token) => {
     setUser(user);
+    if (token) localStorage.setItem("token", token);
   };
 
   const logout = () => {
