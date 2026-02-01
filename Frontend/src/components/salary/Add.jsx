@@ -37,7 +37,7 @@ const Add = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/salary/add`,
+        `https://ems-server-i55t.onrender.com/api/salary/add`,
         salary,
         {
           headers: {
