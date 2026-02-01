@@ -9,16 +9,18 @@ const List = () => {
   const [leaves, setLeaves] = useState([]);
   const fetchLeaves = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/api/leave/${user._id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const response = await axios.get("http://localhost:3000/api/leave", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
       if (response.data.success) {
-        setLeaves(response.data.leaves);
+        // filter leaves for current user
+        const employeeLeaves = response.data.leaves.filter(
+          (leave) => leave.employeeId.userId._id === user._id,
+        );
+        setLeaves(employeeLeaves);
       }
     } catch (error) {
       alert(error.message);
