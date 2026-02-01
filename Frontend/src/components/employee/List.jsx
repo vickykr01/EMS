@@ -13,7 +13,7 @@ const List = () => {
     const fetchEmployees = async () => {
       setEmpLoading(true);
       try {
-        const response = await axios.get("http://localhost:3000/api/employee", {
+        const response = await axios.get("https://ems-server-i55t.onrender.com/api/employee", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -31,7 +31,7 @@ const List = () => {
               <img
                 width={40}
                 className="rounded-full"
-                src={`http://localhost:3000/${emp.userId.profileImage}`}
+                src={`https://ems-server-i55t.onrender.com/${emp.userId.profileImage}`}
               />
             ),
             action: <EmployeeButtons id={emp._id} />,
