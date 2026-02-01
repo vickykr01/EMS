@@ -8,7 +8,7 @@ const {
 } = require("../controllers/leaveController.js");
 
 router.post("/add", authMiddleware, addLeave);
-router.get("/:id", authMiddleware, getLeave);
 router.get("/", authMiddleware, getLeaves);
+router.get("/:id", authMiddleware, getLeave);
 
 module.exports = router;

@@ -219,8 +219,6 @@ const Add = () => {
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
               required
             >
-              <option value="">Select Role</option>
-              <option value="admin">Admin</option>
               <option value="employee">Employee</option>
             </select>
           </div>

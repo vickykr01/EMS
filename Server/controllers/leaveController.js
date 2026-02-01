@@ -3,7 +3,15 @@ const Employee = require("../models/Employee.js");
 const addLeave = async (req, res) => {
   try {
     const { userId, leaveType, startDate, endDate, reason } = req.body;
+
     const employee = await Employee.findOne({ userId });
+    if (!employee) {
+      return res.status(404).json({
+        success: false,
+        error: "Employee not found",
+      });
+    }
+
     const newLeave = new Leave({
       employeeId: employee._id,
       leaveType,
@@ -11,25 +19,51 @@ const addLeave = async (req, res) => {
       endDate,
       reason,
     });
+
     await newLeave.save();
-    return res.status(200).json({ success: true, message: "Leave Added!" });
+
+    return res.status(201).json({
+      success: true,
+      message: "Leave Added!",
+    });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ success: false, error: "add Leave server error!" });
+    console.error("ADD LEAVE ERROR:", error);
+    return res.status(500).json({
+      success: false,
+      error: "Server error",
+    });
   }
 };
 
 const getLeave = async (req, res) => {
   try {
     const { id } = req.params;
-    const employee = await Employee.findOne({ userId: id });
-    const leaves = await Leave.find({ employeeId: employee._id });
-    return res.status(200).json({ success: true, leaves });
+
+    const leave = await Leave.findById(id).populate({
+      path: "employeeId",
+      populate: [
+        { path: "userId", select: "name profileImage" },
+        { path: "department", select: "dep_name" },
+      ],
+    });
+
+    if (!leave) {
+      return res.status(404).json({
+        success: false,
+        error: "Leave not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      leave,
+    });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ success: false, error: "add Leave server error!" });
+    console.error("GET LEAVE ERROR:", error);
+    return res.status(500).json({
+      success: false,
+      error: "Server error",
+    });
   }
 };
 
@@ -50,9 +84,7 @@ const getLeaves = async (req, res) => {
     });
     return res.status(200).json({ success: true, leaves });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ success: false, error: "add Leave server error!" });
+    return res.status(500).json({ success: false, error: " error!" });
   }
 };
 

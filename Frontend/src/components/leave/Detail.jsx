@@ -2,14 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-const View = () => {
+const Detail = () => {
   const { id } = useParams();
   const [leave, setLeave] = useState(null);
   useEffect(() => {
+    if (!id) return;
     const fetchLeave = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/leave/detail/${id}`,
+          `http://localhost:3000/api/leave/${id}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -27,7 +28,7 @@ const View = () => {
       }
     };
     fetchLeave();
-  }, []);
+  }, [id]);
 
   return (
     <>
@@ -66,10 +67,6 @@ const View = () => {
                   {leave.employeeId.department.dep_name}
                 </p>
               </div>
-              <div className="flex space-x-3 mb-5">
-                <p className="text-lg font-bold">Martial Status:</p>
-                <p className="font-medium">{employee.martialStatus}</p>
-              </div>
             </div>
           </div>
         </div>
@@ -80,4 +77,4 @@ const View = () => {
   );
 };
 
-export default View;
+export default Detail;
