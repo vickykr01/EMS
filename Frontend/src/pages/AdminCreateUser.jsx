@@ -28,7 +28,7 @@ const AdminCreateUser = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/create-user",
+        "https://ems-server-i55t.onrender.com/api/auth/create-user",
         formData,
         {
           headers: {
