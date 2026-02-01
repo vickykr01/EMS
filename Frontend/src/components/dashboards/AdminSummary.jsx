@@ -30,7 +30,7 @@ const AdminSummary = () => {
         const token = localStorage.getItem("token");
 
         const response = await axios.get(
-          "http://localhost:3000/api/dashboard/stats",
+          "https://ems-server-i55t.onrender.com/api/dashboard/stats",
           {
             headers: {
               Authorization: `Bearer ${token}`,
