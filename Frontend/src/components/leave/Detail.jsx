@@ -10,7 +10,7 @@ const Detail = () => {
     const fetchLeave = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/leave/${id}`,
+          `https://ems-server-i55t.onrender.com/api/leave/${id}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -40,7 +40,7 @@ const Detail = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <img
-                src={`http://localhost:3000/${leave.employeeId.userId.profileImage}`}
+                src={`https://ems-server-i55t.onrender.com/${leave.employeeId.userId.profileImage}`}
                 className="rounded-full border w-72"
               />
             </div>
