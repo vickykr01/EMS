@@ -32,7 +32,7 @@ const EditDepartment = () => {
       }
     };
     fetchDepartments();
-  }, []);
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -66,16 +66,19 @@ const EditDepartment = () => {
       {depLoading ? (
         <div>Loading...</div>
       ) : (
-        <div className="max-w-3xl mx-auto mt-10 bg-white p-8 rounded-md shadow-md w-96">
-          <div>
-            <h2 className="text-2xl font-bold mb-6">Edit Department</h2>
-          </div>
+        <div className="dashboard-content">
+          <div className="glass-panel form-shell fade-up max-w-3xl">
+            <div className="mb-8">
+              <p className="section-eyebrow">Department</p>
+              <h2 className="section-title">Edit department</h2>
+              <p className="section-copy">
+                Update naming and description details without leaving the admin
+                workspace.
+              </p>
+            </div>
           <form onSubmit={handleSubmit}>
             <div>
-              <label
-                htmlFor="dep_name"
-                className="text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="dep_name" className="field-label">
                 Department Name
               </label>
               <input
@@ -84,15 +87,12 @@ const EditDepartment = () => {
                 onChange={handleChange}
                 value={department.dep_name}
                 placeholder="Enter Dep Name"
-                className="mt-1 w-full p-2 border border-gray-300 rounded-md"
+                className="field-input mt-2"
                 required
               />
             </div>
             <div className="mt-3">
-              <label
-                htmlFor="description"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="description" className="field-label">
                 Description
               </label>
               <textarea
@@ -100,17 +100,17 @@ const EditDepartment = () => {
                 onChange={handleChange}
                 value={department.description}
                 placeholder="Description"
-                className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                className="field-input form-textarea mt-2 block w-full"
                 rows="4"
               ></textarea>
             </div>
-            <button
-              type="submit"
-              className="w-full mt-6 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Edit Department
-            </button>
+            <div className="form-actions">
+              <button type="submit" className="primary-button w-full sm:w-auto">
+                Save Department
+              </button>
+            </div>
           </form>
+          </div>
         </div>
       )}
     </>

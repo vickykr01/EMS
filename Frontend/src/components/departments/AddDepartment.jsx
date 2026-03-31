@@ -36,16 +36,18 @@ const AddDepartment = () => {
     }
   };
   return (
-    <div className="max-w-3xl mx-auto mt-10 bg-white p-8 rounded-md shadow-md w-96">
-      <div>
-        <h2 className="text-2xl font-bold mb-6">Add Department</h2>
-      </div>
+    <div className="dashboard-content">
+      <div className="glass-panel form-shell fade-up max-w-3xl">
+        <div className="mb-8">
+          <p className="section-eyebrow">Department</p>
+          <h2 className="section-title">Add department</h2>
+          <p className="section-copy">
+            Create a new department with a clear name and short description.
+          </p>
+        </div>
       <form onSubmit={handleSubmit}>
         <div>
-          <label
-            htmlFor="dep_name"
-            className="text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="dep_name" className="field-label">
             Department Name
           </label>
           <input
@@ -53,32 +55,29 @@ const AddDepartment = () => {
             name="dep_name"
             onChange={handleChange}
             placeholder="Enter Dep Name"
-            className="mt-1 w-full p-2 border border-gray-300 rounded-md"
+            className="field-input mt-2"
             required
           />
         </div>
         <div className="mt-3">
-          <label
-            htmlFor="description"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="description" className="field-label">
             Description
           </label>
           <textarea
             name="description"
             onChange={handleChange}
             placeholder="Description"
-            className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+            className="field-input form-textarea mt-2 block w-full"
             rows="4"
           ></textarea>
         </div>
-        <button
-          type="submit"
-          className="w-full mt-6 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Add Department
-        </button>
+        <div className="form-actions">
+          <button type="submit" className="primary-button w-full sm:w-auto">
+            Add Department
+          </button>
+        </div>
       </form>
+      </div>
     </div>
   );
 };

@@ -33,7 +33,8 @@ export const columns = [
   {
     name: "Action",
     selector: (row) => row.action,
-    center: "true",
+    width: "560px",
+    center: true,
   },
 ];
 
@@ -79,31 +80,65 @@ export const getEmployees = async (id) => {
   return employees;
 };
 
-export const EmployeeButtons = ({ id }) => {
+export const EmployeeButtons = ({ id, onEmployeeDelete }) => {
   const navigate = useNavigate();
 
+  const handleDelete = async () => {
+    const confirmed = window.confirm(
+      "This will permanently remove the employee, user account, leave history, and salary records. Continue?",
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      const response = await axios.delete(`http://localhost:3000/api/employee/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (response.data.success) {
+        onEmployeeDelete?.(id);
+      }
+    } catch (error) {
+      alert(error.response?.data?.error || "Failed to remove employee");
+    }
+  };
+
   return (
-    <div className="flex gap-1">
+    <div className="employee-action-grid">
       <button
-        className="px-1 py-1 bg-teal-600 text-white"
+        className="action-button action-button-view"
         onClick={() => navigate(`/admin-dashboard/employees/${id}`)}
       >
         View
       </button>
       <button
-        className="px-1 py-1 bg-blue-600 text-white"
+        className="action-button action-button-edit"
         onClick={() => navigate(`/admin-dashboard/employees/edit/${id}`)}
       >
         Edit
       </button>
       <button
-        className="px-1 py-1 bg-yellow-600 text-white"
+        className="action-button action-button-warn"
         onClick={() => navigate(`/admin-dashboard/employees/salary/${id}`)}
       >
-        {" "}
-        Salary{" "}
+        Salary
       </button>
-      <button className="px-1 py-1 bg-red-600 text-white">Leave</button>
+      <button
+        className="action-button action-button-delete"
+        onClick={() => navigate(`/admin-dashboard/leaves?employeeId=${id}`)}
+      >
+        Leave
+      </button>
+      <button
+        className="action-button action-button-delete"
+        onClick={handleDelete}
+      >
+        Remove
+      </button>
     </div>
   );
 };

@@ -34,6 +34,10 @@ const verifyUser = async (req, res, next) => {
     next();
   } catch (error) {
     console.error("AUTH MIDDLEWARE ERROR:", error);
+    if (error.name === "JsonWebTokenError" || error.name === "TokenExpiredError") {
+      return res.status(401).json({ success: false, error: "Invalid or expired token" });
+    }
+
     return res.status(500).json({ success: false, error: "Server error" });
   }
 };

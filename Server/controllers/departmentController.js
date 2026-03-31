@@ -14,6 +14,13 @@ const getDepartments = async (req, res) => {
 const addDepartment = async (req, res) => {
   try {
     const { dep_name, description } = req.body;
+    const existingDepartment = await Department.findOne({ dep_name });
+    if (existingDepartment) {
+      return res
+        .status(400)
+        .json({ success: false, error: "Department already exists" });
+    }
+
     const newDep = new Department({
       dep_name,
       description,
@@ -31,6 +38,12 @@ const getDepartment = async (req, res) => {
   try {
     const { id } = req.params;
     const department = await Department.findById({ _id: id });
+    if (!department) {
+      return res
+        .status(404)
+        .json({ success: false, error: "Department not found" });
+    }
+
     return res.status(200).json({ success: true, department });
   } catch (error) {
     return res
@@ -48,8 +61,15 @@ const updateDepartment = async (req, res) => {
       {
         dep_name,
         description,
-      }
+      },
+      { new: true, runValidators: true }
     );
+    if (!updateDep) {
+      return res
+        .status(404)
+        .json({ success: false, error: "Department not found" });
+    }
+
     return res.status(200).json({ success: true, updateDep });
   } catch (error) {
     return res
@@ -62,6 +82,12 @@ const deleteDepartment = async (req, res) => {
   try {
     const { id } = req.params;
     const deleteDep = await Department.findByIdAndDelete({ _id: id });
+    if (!deleteDep) {
+      return res
+        .status(404)
+        .json({ success: false, error: "Department not found" });
+    }
+
     return res.status(200).json({ success: true, deleteDep });
   } catch (error) {
     return res

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
 import axios from "axios";
@@ -7,7 +7,12 @@ const List = () => {
   let sno = 1;
   const { user } = useAuth();
   const [leaves, setLeaves] = useState([]);
-  const fetchLeaves = async () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const fetchLeaves = useCallback(async () => {
+    if (!user?._id) {
+      return;
+    }
+
     try {
       const response = await axios.get("http://localhost:3000/api/leave", {
         headers: {
@@ -25,31 +30,49 @@ const List = () => {
     } catch (error) {
       alert(error.message);
     }
-  };
+  }, [user?._id]);
 
   useEffect(() => {
     fetchLeaves();
-  }, []);
+  }, [fetchLeaves]);
+
+  const filteredLeaves = leaves.filter((leave) =>
+    [leave.leaveType, leave.reason, leave.status]
+      .join(" ")
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase()),
+  );
+
   return (
-    <div className="p-6">
-      <div className="text-center">
-        <h3 className="text-2xl font-bold">Manage Leaves</h3>
+    <div className="dashboard-content">
+      <div className="section-header">
+        <div>
+          <p className="section-eyebrow">Leave History</p>
+          <h3 className="section-title">Manage leaves</h3>
+          <p className="section-copy">
+            Review your leave requests with a cleaner layout and clearer status
+            visibility.
+          </p>
+        </div>
       </div>
-      <div className="flex justify-between items-center">
+      <div className="toolbar-shell">
         <input
           type="text"
-          placeholder="Search By Dep Name"
-          className="px-4 py-0.5 border"
+          placeholder="Search leave records"
+          className="search-input"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
         <Link
           to="/employee-dashboard/add-leave"
-          className="px-4 py-1 bg-teal-600 rounded text-white"
+          className="primary-button"
         >
           Add Leave
         </Link>
       </div>
-      <table className="w-full text-sm text-left text-gray-500 mt-6">
-        <thead className="bg-gray-50 border">
+      <div className="glass-panel table-shell overflow-hidden">
+      <table className="table-lite mt-2">
+        <thead>
           <tr>
             <th className="px-6 py-3">SNO</th>
             <th className="px-6 py-3">Leave Type</th>
@@ -60,8 +83,8 @@ const List = () => {
           </tr>
         </thead>
         <tbody>
-          {leaves.map((leave) => (
-            <tr key={leave._id} className="border-b">
+          {filteredLeaves.map((leave) => (
+            <tr key={leave._id}>
               <td className="px-6 py-3">{sno++}</td>
               <td className="px-6 py-3">{leave.leaveType}</td>
               <td className="px-6 py-3">
@@ -71,11 +94,29 @@ const List = () => {
                 {new Date(leave.endDate).toLocaleDateString()}
               </td>
               <td className="px-6 py-3">{leave.reason}</td>
-              <td className="px-6 py-3">{leave.status}</td>
+              <td className="px-6 py-3">
+                <span
+                  className={`status-pill ${
+                    leave.status === "Approved"
+                      ? "status-approved"
+                      : leave.status === "Rejected"
+                        ? "status-rejected"
+                        : "status-pending"
+                  }`}
+                >
+                  {leave.status}
+                </span>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
+      </div>
+      {filteredLeaves.length === 0 && (
+        <div className="mt-4 text-sm text-[var(--ink-soft)]">
+          No leave records matched your search.
+        </div>
+      )}
     </div>
   );
 };

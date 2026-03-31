@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchDepartments, getEmployees } from "../../utils/EmployeeHelper";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Add = () => {
   const [salary, setSalary] = useState({
@@ -25,7 +25,7 @@ const Add = () => {
 
   const handleDepartment = async (e) => {
     const emps = await getEmployees(e.target.value);
-    setEmployees(emps);
+    setEmployees(emps || []);
   };
 
   const handleChange = (e) => {
@@ -58,19 +58,25 @@ const Add = () => {
   return (
     <>
       {departments ? (
-        <div className="max-w-4xl mx-auto mt-10 bg-white p-8 rounded-md shadow-md">
-          <h2 className="text-2xl font-bold mb-6">Add Salary</h2>
+        <div className="dashboard-content">
+          <div className="glass-panel form-shell fade-up">
+            <div className="mb-8">
+              <p className="section-eyebrow">Salary Desk</p>
+              <h2 className="section-title">Add salary</h2>
+              <p className="section-copy">
+                Assign salary records through a cleaner, more structured payroll
+                form.
+              </p>
+            </div>
           <form onSubmit={handleSubmit}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="form-grid">
               {/* {Department} */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Department
-                </label>
+                <label className="field-label">Department</label>
                 <select
                   name="department"
                   onChange={handleDepartment}
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  className="field-input mt-2 block w-full"
                   required
                 >
                   <option value="">Select Department</option>
@@ -84,13 +90,11 @@ const Add = () => {
 
               {/* {Employee} */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Employees
-                </label>
+                <label className="field-label">Employees</label>
                 <select
                   name="employeeId"
                   onChange={handleChange}
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  className="field-input mt-2 block w-full"
                   required
                 >
                   <option value="">Select Employee</option>
@@ -104,65 +108,60 @@ const Add = () => {
 
               {/* {Basic salary} */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Basic salary
-                </label>
+                <label className="field-label">Basic salary</label>
                 <input
                   type="number"
                   name="basicSalary"
                   onChange={handleChange}
                   placeholder="Basic salary"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  className="field-input mt-2 block w-full"
                   required
                 />
               </div>
 
               {/* {Allowances} */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Allowances
-                </label>
+                <label className="field-label">Allowances</label>
                 <input
                   type="number"
                   name="allowances"
                   onChange={handleChange}
                   placeholder="Allowances"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  className="field-input mt-2 block w-full"
                   required
                 />
               </div>
               {/* {Deductions} */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Deductions
-                </label>
+                <label className="field-label">Deductions</label>
                 <input
                   type="number"
                   name="deductions"
                   onChange={handleChange}
                   placeholder="Deductions"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  className="field-input mt-2 block w-full"
                   required
                 />
               </div>
               {/* {Pay Date} */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Pay Date
-                </label>
+                <label className="field-label">Pay Date</label>
                 <input
                   type="date"
                   name="payDate"
                   onChange={handleChange}
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  className="field-input mt-2 block w-full"
                   required
                 />
               </div>
             </div>
-            <button className="w-full mt-6 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-md">
-              Add Salary
-            </button>
+            <div className="form-actions">
+              <button className="primary-button w-full sm:w-auto">
+                Add Salary
+              </button>
+            </div>
           </form>
+          </div>
         </div>
       ) : (
         <div>Loading...</div>

@@ -11,69 +11,52 @@ import { useAuth } from "../../context/authContext";
 
 const Sidebar = () => {
   const { user } = useAuth();
+
+  if (!user) {
+    return null;
+  }
+
+  const getNavClass = ({ isActive }) =>
+    `nav-pill ${isActive ? "nav-pill-active" : ""}`;
+
   return (
-    <div className="bg-gray-800 text-white h-screen fixed left-0 top-0 bottom-0 space-y-2 w-64">
-      <div className="bg-teal-600 h-12 flex items-center justify-center">
-        <h3 className="text-2xl text-center font-outfit">Employee MS</h3>
+    <div className="sidebar-surface text-white">
+      <div className="brand-mark flex h-20 items-center justify-center">
+        <div className="text-center">
+          <p className="text-xs uppercase tracking-[0.35em] text-white/70">
+            Workspace
+          </p>
+          <h3 className="mt-1 text-2xl font-semibold">Employee MS</h3>
+        </div>
       </div>
-      <div className="px-4">
-        <NavLink
-          to="/employee-dashboard"
-          className={({ isActive }) =>
-            `${
-              isActive ? "bg-teal-500" : " "
-            } flex items-center space-x-4 block py-2.5 px-4 rounded`
-          }
-          end
-        >
+      <div className="space-y-2 px-4 py-6">
+        <NavLink to="/employee-dashboard" className={getNavClass} end>
           <FaTachometerAlt />
           <span>Dashboard</span>
         </NavLink>
 
         <NavLink
           to={`/employee-dashboard/profile/${user._id}`}
-          className={({ isActive }) =>
-            `${
-              isActive ? "bg-teal-500" : " "
-            } flex items-center space-x-4 block py-2.5 px-4 rounded`
-          }
+          className={getNavClass}
         >
           <FaUsers />
           <span>My Profile</span>
         </NavLink>
 
-        <NavLink
-          to="/employee-dashboard/leaves"
-          className={({ isActive }) =>
-            `${
-              isActive ? "bg-teal-500" : " "
-            } flex items-center space-x-4 block py-2.5 px-4 rounded`
-          }
-        >
+        <NavLink to="/employee-dashboard/leaves" className={getNavClass}>
           <FaCalendarAlt />
           <span>Leaves</span>
         </NavLink>
 
         <NavLink
           to={`/employee-dashboard/salary/${user._id}`}
-          className={({ isActive }) =>
-            `${
-              isActive ? "bg-teal-500" : " "
-            } flex items-center space-x-4 block py-2.5 px-4 rounded`
-          }
+          className={getNavClass}
         >
           <FaMoneyBillWave />
           <span>Salary</span>
         </NavLink>
 
-        <NavLink
-          to="/employee-dashboard/setting"
-          className={({ isActive }) =>
-            `${
-              isActive ? "bg-teal-500" : " "
-            } flex items-center space-x-4 block py-2.5 px-4 rounded`
-          }
-        >
+        <NavLink to="/employee-dashboard/setting" className={getNavClass}>
           <FaCogs />
           <span>Setting</span>
         </NavLink>

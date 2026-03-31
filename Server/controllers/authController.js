@@ -59,9 +59,14 @@ const signup = async (req, res) => {
     res.status(201).json({
       success: true,
       message: "Signup successful",
+      user: {
+        id: user._id,
+        name: user.name,
+        role: user.role,
+      },
     });
   } catch (error) {
-    res.status(500).json({ message: "Signup failed" });
+    res.status(500).json({ success: false, message: error.message || "Signup failed" });
   }
 };
 
@@ -96,9 +101,14 @@ const adminCreateUser = async (req, res) => {
     res.status(201).json({
       success: true,
       message: "User created successfully",
+      user: {
+        id: user._id,
+        name: user.name,
+        role: user.role,
+      },
     });
   } catch (error) {
-    res.status(500).json({ message: "User creation failed" });
+    res.status(500).json({ success: false, message: error.message || "User creation failed" });
   }
 };
 

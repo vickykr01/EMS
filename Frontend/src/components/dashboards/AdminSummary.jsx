@@ -40,13 +40,14 @@ const AdminSummary = () => {
 
         setStats(response.data);
       } catch (error) {
-        console.error("Error fetching dashboard stats:", error);
-
         if (error.response?.status === 401) {
           alert("Session expired. Please login again.");
           localStorage.clear();
           window.location.href = "/login";
+          return;
         }
+
+        alert(error.response?.data?.message || "Failed to load dashboard stats");
       } finally {
         setLoading(false);
       }
@@ -57,18 +58,30 @@ const AdminSummary = () => {
 
   if (loading) {
     return (
-      <div className="p-6 text-center text-lg font-semibold">
-        Loading dashboard...
+      <div className="dashboard-content">
+        <div className="glass-panel p-6 text-center text-lg font-semibold">
+          Loading dashboard...
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="p-6">
-      <h3 className="text-2xl font-bold">Dashboard Overview</h3>
+    <div className="dashboard-content">
+      <section className="glass-panel hero-panel fade-up p-6 md:p-8">
+        <p className="text-sm font-medium uppercase tracking-[0.28em] text-[var(--brand-main)]">
+          Overview
+        </p>
+        <h3 className="mt-3 text-3xl font-semibold md:text-4xl">
+          Dashboard overview
+        </h3>
+        <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--ink-soft)]">
+          Keep an eye on your workforce, departments, salary flow, and leave
+          movement through one refreshed operations screen.
+        </p>
+      </section>
 
-      {/* Top Summary */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+      <div className="stats-grid mt-6">
         <SummaryCard
           icon={<FaUsers />}
           text="Total Employees"
@@ -89,11 +102,15 @@ const AdminSummary = () => {
         />
       </div>
 
-      {/* Leave Summary */}
-      <div className="mt-12">
-        <h4 className="text-center text-2xl font-bold">Leave Details</h4>
+      <section className="mt-8">
+        <div className="mb-5">
+          <p className="text-sm font-medium uppercase tracking-[0.28em] text-[var(--ink-soft)]">
+            Team Activity
+          </p>
+          <h4 className="mt-2 text-2xl font-semibold">Leave insights</h4>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+        <div className="stats-grid">
           <SummaryCard
             icon={<FaFileAlt />}
             text="Leave Applied"
@@ -119,7 +136,7 @@ const AdminSummary = () => {
             color="bg-red-500"
           />
         </div>
-      </div>
+      </section>
     </div>
   );
 };

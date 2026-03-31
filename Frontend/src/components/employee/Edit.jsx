@@ -42,7 +42,7 @@ const Edit = () => {
             martialStatus: employee.martialStatus,
             designation: employee.designation,
             salary: employee.salary,
-            department: employee.department,
+            department: employee.department?._id || employee.department,
           }));
         }
       } catch (error) {
@@ -52,7 +52,7 @@ const Edit = () => {
       }
     };
     fetchemployee();
-  }, []);
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -84,37 +84,40 @@ const Edit = () => {
   return (
     <>
       {departments && employee ? (
-        <div className="max-w-4xl mx-auto mt-10 bg-white p-8 rounded-md shadow-md">
-          <h2 className="text-2xl font-bold mb-6">Edit Employee</h2>
+        <div className="dashboard-content">
+          <div className="glass-panel form-shell fade-up">
+            <div className="mb-8">
+              <p className="section-eyebrow">Employees</p>
+              <h2 className="section-title">Edit employee</h2>
+              <p className="section-copy">
+                Refine employee details with a clearer editing workspace.
+              </p>
+            </div>
           <form onSubmit={handleSubmit}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="form-grid">
               {/* {name} */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Name
-                </label>
+                <label className="field-label">Name</label>
                 <input
                   type="text"
                   name="name"
                   value={employee.name}
                   onChange={handleChange}
                   placeholder="Insert Name"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  className="field-input mt-2 block w-full"
                   required
                 />
               </div>
 
               {/* {Martial Status} */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Martial Status
-                </label>
+                <label className="field-label">Marital Status</label>
                 <select
-                  name="martialstatus"
+                  name="martialStatus"
                   onChange={handleChange}
                   value={employee.martialStatus}
                   placeholder="Martial Status"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  className="field-input mt-2 block w-full"
                   required
                 >
                   <option value="">Select Status</option>
@@ -124,44 +127,40 @@ const Edit = () => {
               </div>
               {/* {Designation} */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Dasignation
-                </label>
+                <label className="field-label">Designation</label>
                 <input
                   type="text"
                   name="designation"
                   onChange={handleChange}
                   value={employee.designation}
                   placeholder="Designation"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  className="field-input mt-2 block w-full"
                   required
                 />
               </div>
 
               {/* {Salary} */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Salary
-                </label>
+                <label className="field-label">Salary</label>
                 <input
                   type="number"
                   name="salary"
                   onChange={handleChange}
                   value={employee.salary}
                   placeholder="Salary"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  className="field-input mt-2 block w-full"
                   required
                 />
               </div>
 
               {/* {Department} */}
               <div>
-                <label className="col-span-2">Department</label>
+                <label className="field-label">Department</label>
                 <select
                   name="department"
                   onChange={handleChange}
                   value={employee.department}
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                  className="field-input mt-2 block w-full"
                   required
                 >
                   <option value="">Select Department</option>
@@ -173,10 +172,13 @@ const Edit = () => {
                 </select>
               </div>
             </div>
-            <button className="w-full mt-6 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-md">
-              Edit Employee
-            </button>
+            <div className="form-actions">
+              <button className="primary-button w-full sm:w-auto">
+                Save Employee
+              </button>
+            </div>
           </form>
+          </div>
         </div>
       ) : (
         <div>Loading...</div>

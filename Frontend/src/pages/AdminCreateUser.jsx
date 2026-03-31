@@ -27,15 +27,11 @@ const AdminCreateUser = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/auth/create-user",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+      await axios.post("http://localhost:3000/api/auth/create-user", formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      );
+      });
 
       setSuccessMsg("User created successfully!");
       setFormData({
@@ -52,73 +48,103 @@ const AdminCreateUser = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-6 rounded shadow-md w-full max-w-md"
-      >
-        <h2 className="text-2xl font-bold text-center mb-4">Create New User</h2>
+    <div className="dashboard-content">
+      <div className="glass-panel form-shell fade-up max-w-3xl">
+        <div className="mb-8">
+          <p className="section-eyebrow">Access Control</p>
+          <h2 className="section-title">Create new user</h2>
+          <p className="section-copy">
+            Add admins, HR users, or employees with a cleaner account creation
+            flow.
+          </p>
+        </div>
 
-        {successMsg && <p className="text-green-600 mb-3">{successMsg}</p>}
-        {errorMsg && <p className="text-red-600 mb-3">{errorMsg}</p>}
+        {successMsg && (
+          <p className="mb-4 rounded-2xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
+            {successMsg}
+          </p>
+        )}
+        {errorMsg && (
+          <p className="mb-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+            {errorMsg}
+          </p>
+        )}
 
-        <input
-          type="text"
-          name="name"
-          placeholder="Full Name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-          className="w-full p-2 border rounded mb-3"
-        />
+        <form onSubmit={handleSubmit}>
+          <div className="form-grid">
+            <div>
+              <label className="field-label">Full Name</label>
+              <input
+                type="text"
+                name="name"
+                placeholder="Full Name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                className="field-input mt-2 w-full"
+              />
+            </div>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email Address"
-          value={formData.email}
-          onChange={handleChange}
-          required
-          className="w-full p-2 border rounded mb-3"
-        />
+            <div>
+              <label className="field-label">Email Address</label>
+              <input
+                type="email"
+                name="email"
+                placeholder="Email Address"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="field-input mt-2 w-full"
+              />
+            </div>
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Temporary Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-          className="w-full p-2 border rounded mb-3"
-        />
+            <div>
+              <label className="field-label">Temporary Password</label>
+              <input
+                type="password"
+                name="password"
+                placeholder="Temporary Password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                className="field-input mt-2 w-full"
+              />
+            </div>
 
-        <select
-          name="role"
-          value={formData.role}
-          onChange={handleChange}
-          className="w-full p-2 border rounded mb-4"
-        >
-          <option value="employee">Employee</option>
-          <option value="hr">HR</option>
-          <option value="admin">Admin</option>
-        </select>
+            <div>
+              <label className="field-label">Role</label>
+              <select
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+                className="field-input mt-2 w-full"
+              >
+                <option value="employee">Employee</option>
+                <option value="hr">HR</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+          </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-teal-600 text-white py-2 rounded disabled:opacity-50"
-        >
-          {loading ? "Creating..." : "Create User"}
-        </button>
+          <div className="form-actions">
+            <button
+              type="submit"
+              disabled={loading}
+              className="primary-button w-full disabled:opacity-50 sm:w-auto"
+            >
+              {loading ? "Creating..." : "Create User"}
+            </button>
 
-        <button
-          type="button"
-          onClick={() => navigate(-1)}
-          className="w-full mt-3 border py-2 rounded"
-        >
-          Cancel
-        </button>
-      </form>
+            <button
+              type="button"
+              onClick={() => navigate(-1)}
+              className="action-button action-button-warn w-full sm:w-auto"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

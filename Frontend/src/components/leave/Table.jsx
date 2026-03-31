@@ -2,10 +2,16 @@ import React, { useEffect, useState } from "react";
 import { LeaveButtons } from "../../utils/LeaveHelper";
 import DataTable from "react-data-table-component";
 import { columns } from "../../utils/LeaveHelper";
+import { tableStyles } from "../../utils/tableStyles.js";
 import axios from "axios";
+import { useSearchParams } from "react-router-dom";
 
 const Table = () => {
   const [leaves, setLeaves] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const employeeFilter = searchParams.get("employeeId") || "";
 
   const fetchLeave = async () => {
     try {
@@ -21,9 +27,10 @@ const Table = () => {
         const data = response.data.leaves.map((leave) => ({
           _id: leave._id,
           sno: sno++,
-          employeeId: leave.employeeId.employeeId,
-          name: leave.employeeId.userId.name,
-          department: leave.employeeId.department.dep_name,
+          employeeRefId: leave.employeeId?._id || "",
+          employeeId: leave.employeeId?.employeeId || "N/A",
+          name: leave.employeeId?.userId?.name || "Unknown Employee",
+          department: leave.employeeId?.department?.dep_name || "Unassigned",
           leaveType: leave.leaveType,
           days:
             (new Date(leave.endDate) - new Date(leave.startDate)) /
@@ -36,7 +43,7 @@ const Table = () => {
         setLeaves(data);
       }
     } catch (error) {
-      alert(error.response?.data?.error || "Server error");
+      alert(error.response?.data?.error || error.message || "Failed to load leaves");
     }
   };
 
@@ -44,31 +51,111 @@ const Table = () => {
     fetchLeave();
   }, []);
 
+  const employeeScopedLeaves = (leaves || []).filter((leave) => {
+    if (!employeeFilter) {
+      return true;
+    }
+
+    return leave.employeeRefId === employeeFilter;
+  });
+
+  const filteredLeaves = employeeScopedLeaves.filter((leave) => {
+    const matchesSearch = [
+      leave.employeeId,
+      leave.name,
+      leave.department,
+      leave.leaveType,
+    ]
+      .join(" ")
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+
+    const matchesStatus =
+      statusFilter === "All" ? true : leave.status === statusFilter;
+
+    return matchesSearch && matchesStatus;
+  });
+
   if (!leaves) {
     return <div className="p-6 text-center">Loading...</div>;
   }
 
+  const clearEmployeeFilter = () => {
+    setSearchParams({});
+  };
+
   return (
-    <div className="p-6">
-      <div className="text-center">
-        <h3 className="text-2xl font-bold">Manage Leaves</h3>
-      </div>
-
-      <div className="flex justify-between items-center mb-4">
-        <input
-          type="text"
-          placeholder="Search By Dep Name"
-          className="px-4 py-0.5 border"
-        />
-
-        <div className="space-x-3">
-          <button className="px-2 py-1 bg-teal-600 text-white">Pending</button>
-          <button className="px-2 py-1 bg-teal-600 text-white">Approved</button>
-          <button className="px-2 py-1 bg-teal-600 text-white">Rejected</button>
+    <div className="dashboard-content">
+      <div className="section-header">
+        <div>
+          <p className="section-eyebrow">Leave Desk</p>
+          <h3 className="section-title">Manage leaves</h3>
+          <p className="section-copy">
+            Review employee leave activity with cleaner scanning and faster
+            access to detail pages.
+          </p>
+          {employeeFilter && (
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <span className="status-pill status-pending">
+                Filtered to selected employee
+              </span>
+              <button
+                type="button"
+                className="action-button action-button-view"
+                onClick={clearEmployeeFilter}
+              >
+                Show All Leaves
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
-      <DataTable columns={columns} data={leaves} pagination />
+      <div className="toolbar-shell">
+        <input
+          type="text"
+          placeholder="Search by department"
+          className="search-input"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+
+        <div className="flex flex-wrap gap-2">
+          <button
+            className={`action-button ${statusFilter === "All" ? "action-button-view" : "action-button-warn"}`}
+            onClick={() => setStatusFilter("All")}
+          >
+            All
+          </button>
+          <button
+            className="action-button action-button-warn"
+            onClick={() => setStatusFilter("Pending")}
+          >
+            Pending
+          </button>
+          <button
+            className="action-button action-button-edit"
+            onClick={() => setStatusFilter("Approved")}
+          >
+            Approved
+          </button>
+          <button
+            className="action-button action-button-delete"
+            onClick={() => setStatusFilter("Rejected")}
+          >
+            Rejected
+          </button>
+        </div>
+      </div>
+
+      <div className="glass-panel table-shell overflow-hidden p-2">
+        <DataTable
+          columns={columns}
+          data={filteredLeaves}
+          pagination
+          customStyles={tableStyles}
+        />
+      </div>
     </div>
   );
 };

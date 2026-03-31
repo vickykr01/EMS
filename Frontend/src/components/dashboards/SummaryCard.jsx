@@ -2,15 +2,19 @@ import React from "react";
 
 const SummaryCard = ({ icon, text, number, color }) => {
   return (
-    <div className="rounded flex bg-white">
+    <div className="glass-panel hero-panel fade-up overflow-hidden p-5">
       <div
-        className={`text-3xl flex justify-center items-center ${color} text-white px-4`}
+        className={`mb-5 flex h-14 w-14 items-center justify-center rounded-2xl text-2xl text-white shadow-lg ${color}`}
       >
         {icon}
       </div>
-      <div className="pl-4 py-1">
-        <p className="text-lg font-semibold">{text}</p>
-        <p className="text-xl font-bold">{number}</p>
+      <div>
+        <p className="text-sm font-medium uppercase tracking-[0.22em] text-[var(--ink-soft)]">
+          {text}
+        </p>
+        <p className="mt-3 text-3xl font-semibold text-[var(--ink-strong)]">
+          {number}
+        </p>
       </div>
     </div>
   );

@@ -5,14 +5,21 @@ const addSalary = async (req, res) => {
   try {
     const { employeeId, basicSalary, allowances, deductions, payDate } =
       req.body;
-    const totalsalary =
-      parseInt(basicSalary) + parseInt(allowances) - parseInt(deductions);
+    const employee = await Employee.findById(employeeId);
+    if (!employee) {
+      return res.status(404).json({ success: false, error: "Employee not found" });
+    }
+
+    const safeBasicSalary = Number(basicSalary) || 0;
+    const safeAllowances = Number(allowances) || 0;
+    const safeDeductions = Number(deductions) || 0;
+    const totalsalary = safeBasicSalary + safeAllowances - safeDeductions;
 
     const newSalary = new Salary({
       employeeId,
-      basicSalary,
-      allowances,
-      deductions,
+      basicSalary: safeBasicSalary,
+      allowances: safeAllowances,
+      deductions: safeDeductions,
       netSalary: totalsalary,
       payDate,
     });
@@ -34,6 +41,10 @@ const getSalary = async (req, res) => {
     );
     if (!salary || salary.length < 1) {
       const employee = await Employee.findOne({ userId: id });
+      if (!employee) {
+        return res.status(404).json({ success: false, error: "Employee not found" });
+      }
+
       salary = await Salary.find({ employeeId: employee._id }).populate(
         "employeeId",
         "employeeId"

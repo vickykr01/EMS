@@ -1,6 +1,9 @@
 const path = require("path");
+const fs = require("fs");
 const Employee = require("../models/Employee");
 const User = require("../models/User");
+const Salary = require("../models/Salary");
+const Leave = require("../models/Leave");
 const bcrypt = require("bcrypt");
 const multer = require("multer");
 const Department = require("../models/Department");
@@ -32,10 +35,26 @@ const addEmployee = async (req, res) => {
       role,
     } = req.body;
 
-    if (!employeeId || !department || !salary || !password) {
+    if (!name || !email || !employeeId || !department || !salary || !password) {
       return res.status(400).json({
         success: false,
         error: "Required fields missing",
+      });
+    }
+
+    const existingEmployee = await Employee.findOne({ employeeId });
+    if (existingEmployee) {
+      return res.status(400).json({
+        success: false,
+        error: "Employee ID already exists",
+      });
+    }
+
+    const departmentExists = await Department.findById(department);
+    if (!departmentExists) {
+      return res.status(400).json({
+        success: false,
+        error: "Department not found",
       });
     }
 
@@ -53,7 +72,7 @@ const addEmployee = async (req, res) => {
       name,
       email,
       password: hashPassword,
-      role,
+      role: role || "employee",
       profileImage: req.file ? req.file.filename : "",
     });
 
@@ -110,6 +129,10 @@ const getEmployee = async (req, res) => {
         .populate("userId", { password: 0 })
         .populate("department");
     }
+    if (!employee) {
+      return res.status(404).json({ success: false, error: "Employee not found" });
+    }
+
     return res.status(200).json({ success: true, employee });
   } catch (error) {
     return res
@@ -125,18 +148,29 @@ const updateEmployee = async (req, res) => {
     const employee = await Employee.findById({ _id: id });
     if (!employee) {
       return res
-        .status(500)
-        .json({ success: false, error: " employee not found!" });
+        .status(404)
+        .json({ success: false, error: "employee not found!" });
     }
     const user = await User.findById({ _id: employee.userId });
     if (!user) {
       return res
-        .status(500)
-        .json({ success: false, error: " user not found!" });
+        .status(404)
+        .json({ success: false, error: "user not found!" });
     }
+
+    if (department) {
+      const departmentExists = await Department.findById(department);
+      if (!departmentExists) {
+        return res
+          .status(400)
+          .json({ success: false, error: "Department not found" });
+      }
+    }
+
     const updateUser = await User.findByIdAndUpdate(
       { _id: employee.userId },
-      { name }
+      { name },
+      { new: true, runValidators: true }
     );
     const updateEmployee = await Employee.findByIdAndUpdate(
       { _id: id },
@@ -145,11 +179,12 @@ const updateEmployee = async (req, res) => {
         designation,
         salary,
         department,
-      }
+      },
+      { new: true, runValidators: true }
     );
     if (!updateUser || !updateEmployee) {
       return res
-        .status(500)
+        .status(404)
         .json({ success: false, error: " Document not found!" });
     }
     return res
@@ -174,6 +209,44 @@ const fetchEmployeesByDepId = async (req, res) => {
   }
 };
 
+const deleteEmployee = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const employee = await Employee.findById(id).populate("userId");
+
+    if (!employee) {
+      return res
+        .status(404)
+        .json({ success: false, error: "Employee not found" });
+    }
+
+    await Leave.deleteMany({ employeeId: employee._id });
+    await Salary.deleteMany({ employeeId: employee._id });
+    await Employee.findByIdAndDelete(employee._id);
+
+    if (employee.userId?._id) {
+      const profileImage = employee.userId.profileImage;
+      await User.findByIdAndDelete(employee.userId._id);
+
+      if (profileImage) {
+        const imagePath = path.join("public", "uploads", profileImage);
+        if (fs.existsSync(imagePath)) {
+          fs.unlinkSync(imagePath);
+        }
+      }
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Employee removed permanently",
+    });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, error: "Delete employee server error" });
+  }
+};
+
 module.exports = {
   addEmployee,
   upload,
@@ -181,4 +254,5 @@ module.exports = {
   getEmployee,
   updateEmployee,
   fetchEmployeesByDepId,
+  deleteEmployee,
 };

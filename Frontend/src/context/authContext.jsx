@@ -29,18 +29,12 @@ export const AuthProvider = ({ children }) => {
         if (response.data.success) {
           setUser(response.data.user);
         } else {
-          // Token valid but user not found
-          console.warn("Token valid but user not found:", response.data);
           setUser(null);
-          localStorage.removeItem("token"); // Remove invalid token
+          localStorage.removeItem("token");
         }
-      } catch (error) {
-        console.error(
-          "Token verification failed:",
-          error.response?.data || error,
-        );
+      } catch {
         setUser(null);
-        localStorage.removeItem("token"); // Remove invalid/expired token
+        localStorage.removeItem("token");
       } finally {
         setLoading(false);
       }

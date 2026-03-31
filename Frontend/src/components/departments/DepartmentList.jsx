@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import { columns, DepartmentButtons } from "../../utils/DepartmentHelper.jsx";
+import { tableStyles } from "../../utils/tableStyles.js";
 import axios from "axios";
 
 const DepartmentList = () => {
@@ -9,10 +10,14 @@ const DepartmentList = () => {
   const [depLoading, setDepLoading] = useState(false);
   const [filteredDepartment, setFilteredDepartment] = useState([]);
 
-  const onDepartmentDelete = async (id) => {
-    const data = departments.filter((dep) => dep._id !== id);
-    setDepartments(data);
-  };
+  const onDepartmentDelete = useCallback((id) => {
+    setDepartments((currentDepartments) =>
+      currentDepartments.filter((dep) => dep._id !== id),
+    );
+    setFilteredDepartment((currentDepartments) =>
+      currentDepartments.filter((dep) => dep._id !== id),
+    );
+  }, []);
 
   useEffect(() => {
     const fetchDepartments = async () => {
@@ -51,7 +56,7 @@ const DepartmentList = () => {
       }
     };
     fetchDepartments();
-  }, []);
+  }, [onDepartmentDelete]);
 
   const filterDepartments = (e) => {
     const records = departments.filter((dep) =>
@@ -65,26 +70,38 @@ const DepartmentList = () => {
       {depLoading ? (
         <div>Loading...</div>
       ) : (
-        <div className="p-5">
-          <div className="text-center">
-            <h3 className="text-2xl font-bold">Manage Departments</h3>
+        <div className="dashboard-content">
+          <div className="section-header">
+            <div>
+              <p className="section-eyebrow">Departments</p>
+              <h3 className="section-title">Manage departments</h3>
+              <p className="section-copy">
+                Organize teams and keep the department structure clean and easy
+                to browse.
+              </p>
+            </div>
           </div>
-          <div className="flex justify-between items-center">
+          <div className="toolbar-shell">
             <input
               type="text"
-              placeholder="search by Dep name"
-              className="px-4 py-0.5 border"
+              placeholder="Search by department name"
+              className="search-input"
               onChange={filterDepartments}
             />
             <Link
               to="/admin-dashboard/add-department"
-              className="px-4 py-1 bg-teal-600 rounded text-white"
+              className="primary-button"
             >
               Add New Department
             </Link>
           </div>
-          <div className="mt-5">
-            <DataTable columns={columns} data={filteredDepartment} pagination />
+          <div className="glass-panel table-shell mt-5 overflow-hidden p-2">
+            <DataTable
+              columns={columns}
+              data={filteredDepartment}
+              pagination
+              customStyles={tableStyles}
+            />
           </div>
         </div>
       )}

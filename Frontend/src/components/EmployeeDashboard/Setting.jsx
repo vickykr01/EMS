@@ -8,7 +8,6 @@ const Setting = () => {
   const { user } = useAuth();
 
   const [setting, setSetting] = useState({
-    userId: user._id,
     oldPassword: "",
     newPassword: "",
     confirmPassword: "",
@@ -24,6 +23,11 @@ const Setting = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!user?._id) {
+      setError("User not found");
+      return;
+    }
+
     if (setting.newPassword !== setting.confirmPassword) {
       setError("Password not matched!");
       return;
@@ -32,7 +36,7 @@ const Setting = () => {
     try {
       const response = await axios.put(
         "http://localhost:3000/api/setting/change-password",
-        setting,
+        { ...setting, userId: user._id },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -54,58 +58,63 @@ const Setting = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto mt-10 bg-white p-8 rounded-md shadow-md w-96">
-      <h2 className="text-2xl font-bold mb-6">Change Password</h2>
-
-      {error && <p className="text-red-500 mb-3">{error}</p>}
-
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label className="text-sm font-medium text-gray-700">
-            Old Password
-          </label>
-          <input
-            type="password"
-            name="oldPassword"
-            onChange={handleChange}
-            className="mt-1 w-full p-2 border rounded-md"
-            required
-          />
+    <div className="dashboard-content">
+      <div className="glass-panel form-shell fade-up max-w-3xl">
+        <div className="mb-8">
+          <p className="section-eyebrow">Security</p>
+          <h2 className="section-title">Change password</h2>
+          <p className="section-copy">
+            Keep your account secure with a clearer password update form.
+          </p>
         </div>
 
-        <div>
-          <label className="text-sm font-medium text-gray-700">
-            New Password
-          </label>
-          <input
-            type="password"
-            name="newPassword"
-            onChange={handleChange}
-            className="mt-1 w-full p-2 border rounded-md"
-            required
-          />
-        </div>
+        {error && (
+          <p className="mb-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+            {error}
+          </p>
+        )}
 
-        <div>
-          <label className="text-sm font-medium text-gray-700">
-            Confirm Password
-          </label>
-          <input
-            type="password"
-            name="confirmPassword"
-            onChange={handleChange}
-            className="mt-1 w-full p-2 border rounded-md"
-            required
-          />
-        </div>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label className="field-label">Old Password</label>
+            <input
+              type="password"
+              name="oldPassword"
+              onChange={handleChange}
+              className="field-input mt-2 w-full"
+              required
+            />
+          </div>
 
-        <button
-          type="submit"
-          className="w-full mt-6 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 rounded-md"
-        >
-          Change Password
-        </button>
-      </form>
+          <div>
+            <label className="field-label">New Password</label>
+            <input
+              type="password"
+              name="newPassword"
+              onChange={handleChange}
+              className="field-input mt-2 w-full"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="field-label">Confirm Password</label>
+            <input
+              type="password"
+              name="confirmPassword"
+              onChange={handleChange}
+              className="field-input mt-2 w-full"
+              required
+            />
+          </div>
+
+          <div className="form-actions">
+            <button type="submit" className="primary-button w-full sm:w-auto">
+              Change Password
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

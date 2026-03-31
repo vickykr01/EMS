@@ -8,7 +8,7 @@ const RoleBasedRoutes = ({ children, requiredRole }) => {
     return <div>Loading...</div>;
   }
   if (!requiredRole.includes(user.role)) {
-    <Navigate to="/unauthorized" />;
+    return <Navigate to="/login" replace />;
   }
   return user ? children : <Navigate to="/login" />;
 };
