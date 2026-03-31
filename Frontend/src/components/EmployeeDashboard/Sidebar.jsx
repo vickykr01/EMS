@@ -16,6 +16,8 @@ const Sidebar = () => {
     return null;
   }
 
+  const userId = user._id || user.id;
+
   const getNavClass = ({ isActive }) =>
     `nav-pill ${isActive ? "nav-pill-active" : ""}`;
 
@@ -36,7 +38,7 @@ const Sidebar = () => {
         </NavLink>
 
         <NavLink
-          to={`/employee-dashboard/profile/${user._id}`}
+          to={`/employee-dashboard/profile/${userId}`}
           className={getNavClass}
         >
           <FaUsers />
@@ -49,7 +51,7 @@ const Sidebar = () => {
         </NavLink>
 
         <NavLink
-          to={`/employee-dashboard/salary/${user._id}`}
+          to={`/employee-dashboard/salary/${userId}`}
           className={getNavClass}
         >
           <FaMoneyBillWave />

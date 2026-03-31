@@ -14,7 +14,7 @@ const List = () => {
     }
 
     try {
-      const response = await axios.get("https://ems-server-i55t.onrender.com/api/leave", {
+      const response = await axios.get("http://localhost:3000/api/leave", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -23,7 +23,7 @@ const List = () => {
       if (response.data.success) {
         // filter leaves for current user
         const employeeLeaves = response.data.leaves.filter(
-          (leave) => leave.employeeId.userId._id === user._id,
+          (leave) => leave.employeeId?.userId?._id === user._id,
         );
         setLeaves(employeeLeaves);
       }

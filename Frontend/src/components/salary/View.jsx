@@ -11,7 +11,7 @@ const View = () => {
   const fetchSalaries = useCallback(async () => {
     try {
       const response = await axios.get(
-        `https://ems-server-i55t.onrender.com/api/salary/${id}`,
+        `http://localhost:3000/api/salary/${id}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -23,7 +23,7 @@ const View = () => {
         setFilteredSalaries(response.data.salary);
       }
     } catch (error) {
-      alert(error.message);
+      alert(error.response?.data?.error || error.message);
     }
   }, [id]);
 

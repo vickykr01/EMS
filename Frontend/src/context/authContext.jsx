@@ -3,6 +3,20 @@ import axios from "axios";
 
 export const UserContext = createContext();
 
+const normalizeUser = (user) => {
+  if (!user) {
+    return null;
+  }
+
+  const normalizedId = user._id || user.id;
+
+  return {
+    ...user,
+    _id: normalizedId,
+    id: normalizedId,
+  };
+};
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -18,7 +32,7 @@ export const AuthProvider = ({ children }) => {
         }
 
         const response = await axios.get(
-          "https://ems-server-i55t.onrender.com/api/auth/verify",
+          "http://localhost:3000/api/auth/verify",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -27,7 +41,7 @@ export const AuthProvider = ({ children }) => {
         );
 
         if (response.data.success) {
-          setUser(response.data.user);
+          setUser(normalizeUser(response.data.user));
         } else {
           setUser(null);
           localStorage.removeItem("token");
@@ -44,7 +58,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (user, token) => {
-    setUser(user);
+    setUser(normalizeUser(user));
     if (token) localStorage.setItem("token", token);
   };
 

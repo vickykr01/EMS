@@ -46,7 +46,7 @@ const Setting = () => {
 
       if (response.data.success) {
         setError("");
-        navigate("/admin-dashboard/employees");
+        navigate("/employee-dashboard");
       }
     } catch (error) {
       if (error.response) {
