@@ -14,7 +14,7 @@ const List = () => {
     }
 
     try {
-      const response = await axios.get("http://localhost:3000/api/leave", {
+      const response = await axios.get("https://ems-server-i55t.onrender.com/api/leave", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

@@ -27,11 +27,15 @@ const AdminCreateUser = () => {
     setLoading(true);
 
     try {
-      await axios.post("http://localhost:3000/api/auth/create-user", formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+      await axios.post(
+        "http://localhost:3000/api/auth/create-user",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         },
-      });
+      );
 
       setSuccessMsg("User created successfully!");
       setFormData({

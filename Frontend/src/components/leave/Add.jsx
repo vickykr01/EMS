@@ -34,7 +34,7 @@ const Add = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/leave/add`,
+        `https://ems-server-i55t.onrender.com/api/leave/add`,
         leave,
         {
           headers: {

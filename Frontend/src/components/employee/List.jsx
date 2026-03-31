@@ -65,10 +65,11 @@ const List = () => {
 
   const handleFilter = (e) => {
     const records = employees.filter((emp) =>
-      emp.name.toLowerCase().includes(e.target.value.toLowerCase())
+      emp.name.toLowerCase().includes(e.target.value.toLowerCase()),
     );
     setFilteredEmployee(records);
   };
+
   return (
     <div className="dashboard-content">
       <div className="section-header">
@@ -89,10 +90,7 @@ const List = () => {
           className="search-input"
           onChange={handleFilter}
         />
-        <Link
-          to="/admin-dashboard/add-employee"
-          className="primary-button"
-        >
+        <Link to="/admin-dashboard/add-employee" className="primary-button">
           Add New Employees
         </Link>
       </div>
