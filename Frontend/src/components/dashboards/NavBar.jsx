@@ -1,5 +1,6 @@
 import React from "react";
 import { useAuth } from "../../context/authContext.jsx";
+import ThemeToggle from "../ThemeToggle.jsx";
 
 const NavBar = () => {
   const { user, logout } = useAuth();
@@ -16,12 +17,13 @@ const NavBar = () => {
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <div className="hidden rounded-full border border-[var(--line-soft)] bg-white/60 px-4 py-2 text-sm text-[var(--ink-soft)] sm:block">
+          <div className="theme-chip hidden sm:block">
             Live workspace
           </div>
           <button className="primary-button !px-5 !py-3" onClick={logout}>
             Logout
           </button>
+          <ThemeToggle variant="inline" />
         </div>
       </div>
     </div>

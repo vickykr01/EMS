@@ -81,13 +81,13 @@ function Login() {
               Employee Management System
             </p>
             <h2 className="mt-3 text-3xl font-semibold">Welcome back</h2>
-            <p className="mt-2 text-sm text-slate-500">
+            <p className="mt-2 text-sm text-[var(--ink-soft)]">
               Sign in to continue to your dashboard.
             </p>
           </div>
 
           {error && (
-            <p className="mb-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+            <p className="feedback-banner feedback-banner-error">
               {error}
             </p>
           )}
@@ -117,7 +117,7 @@ function Login() {
               />
             </div>
 
-            <div className="flex items-center justify-between text-sm text-slate-500">
+            <div className="flex items-center justify-between text-sm text-[var(--ink-soft)]">
               <label className="inline-flex items-center gap-2">
                 <input type="checkbox" className="accent-[var(--brand-main)]" />
                 <span>Remember me</span>
@@ -131,7 +131,7 @@ function Login() {
               Login
             </button>
 
-            <p className="text-center text-sm text-slate-500">
+            <p className="text-center text-sm text-[var(--ink-soft)]">
               Don&apos;t have an account?{" "}
               <span
                 className="cursor-pointer font-semibold text-[var(--brand-main)]"

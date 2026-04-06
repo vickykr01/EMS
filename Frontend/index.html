@@ -11,6 +11,21 @@
       rel="stylesheet"
     />
     <title>Employee Managment system</title>
+    <script>
+      try {
+        const savedTheme = localStorage.getItem("ems-theme");
+        const theme =
+          savedTheme ||
+          (window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light");
+
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+      } catch {
+        document.documentElement.dataset.theme = "light";
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

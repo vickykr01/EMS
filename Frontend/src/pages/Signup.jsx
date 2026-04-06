@@ -90,7 +90,7 @@ const Signup = () => {
 
             <button className="primary-button w-full">Signup</button>
 
-            <p className="text-center text-sm text-slate-500">
+            <p className="text-center text-sm text-[var(--ink-soft)]">
               Already have an account?{" "}
               <span
                 className="cursor-pointer font-semibold text-[var(--brand-main)]"
