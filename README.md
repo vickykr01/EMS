@@ -184,7 +184,12 @@ BCA Student | Full-Stack Developer
 
 ---
 
-<img width="1919" height="899" alt="Screenshot 2026-02-01 234134" src="https://github.com/user-attachments/assets/dce548dd-2ac9-4235-bef7-109ca4db6ee2" />
-<img width="1919" height="901" alt="Screenshot 2026-02-01 234009" src="https://github.com/user-attachments/assets/ed032f5e-6922-48f7-b617-95caa50be892" />
-<img width="1917" height="896" alt="Screenshot 2026-02-01 233903" src="https://github.com/user-attachments/assets/edeb395a-4162-4725-a312-9097a6b29c8c" />
-<img width="1919" height="907" alt="Screenshot 2026-02-01 233830" src="https://github.com/user-attachments/assets/808c03e1-efbf-497a-843d-5d1358f3ccd1" />
+<img width="1920" height="1020" alt="Screenshot 2026-04-06 221931" src="https://github.com/user-attachments/assets/bff9c006-dbc9-4a11-942f-ccdd951e1d07" />
+<img width="1920" height="1020" alt="Screenshot 2026-04-06 221921" src="https://github.com/user-attachments/assets/e2572061-7d45-42ff-8a8c-16b306656b1e" />
+<img width="1920" height="1020" alt="Screenshot 2026-04-06 221908" src="https://github.com/user-attachments/assets/9d67f441-266e-4230-b223-5c0d2bbebd9c" />
+<img width="1920" height="1020" alt="Screenshot 2026-04-06 221855" src="https://github.com/user-attachments/assets/3584607d-9fba-42d9-9e2f-21a5dc46f66e" />
+<img width="1920" height="1020" alt="Screenshot 2026-04-06 221838" src="https://github.com/user-attachments/assets/06163cf9-99f1-4980-b160-6058effff81d" />
+<img width="1920" height="1020" alt="Screenshot 2026-04-06 221825" src="https://github.com/user-attachments/assets/5f7f2bb0-74c7-4192-86e9-88cff040462a" />
+<img width="1920" height="1020" alt="Screenshot 2026-04-06 221802" src="https://github.com/user-attachments/assets/33f6c357-9979-476c-81a9-b5693b12163d" />
+<img width="1920" height="1020" alt="Screenshot 2026-04-06 221732" src="https://github.com/user-attachments/assets/7e52b204-f1f1-4a18-b2fe-435a0800cbf8" />
+
