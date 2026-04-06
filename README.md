@@ -138,8 +138,4 @@ BCA Student | Full-Stack Developer
 
 
 ---
-<img width="1919" height="899" alt="Screenshot 2026-02-01 234134" src="https://github.com/user-attachments/assets/dce548dd-2ac9-4235-bef7-109ca4db6ee2" />
-<img width="1919" height="901" alt="Screenshot 2026-02-01 234009" src="https://github.com/user-attachments/assets/ed032f5e-6922-48f7-b617-95caa50be892" />
-<img width="1917" height="896" alt="Screenshot 2026-02-01 233903" src="https://github.com/user-attachments/assets/edeb395a-4162-4725-a312-9097a6b29c8c" />
-<img width="1919" height="907" alt="Screenshot 2026-02-01 233830" src="https://github.com/user-attachments/assets/808c03e1-efbf-497a-843d-5d1358f3ccd1" />
 
