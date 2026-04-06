@@ -136,59 +136,53 @@ npm install
 npm run dev
 ```
 
-The Vite app typically runs on `http://localhost:5173`.
+🔑 API Endpoints (Sample)
+Auth
+POST /api/auth/login
 
-## API Overview
+POST /api/auth/signup
 
-### Auth
+GET /api/auth/verify
 
-- `POST /api/auth/signup`
-- `POST /api/auth/login`
-- `POST /api/auth/create-user`
-- `GET /api/auth/verify`
+Employees
+GET /api/employee
 
-### Departments
+POST /api/employee/add
 
-- `GET /api/department`
-- `POST /api/department/add`
-- `GET /api/department/:id`
-- `PUT /api/department/:id`
-- `DELETE /api/department/:id`
+GET /api/employee/:id
 
-### Employees
+Leaves
+POST /api/leave/add
 
-- `GET /api/employee`
-- `POST /api/employee/add`
-- `GET /api/employee/department/:id`
-- `GET /api/employee/:id`
-- `PUT /api/employee/:id`
-- `DELETE /api/employee/:id`
+GET /api/leave
 
-### Salary
+GET /api/leave/:id
 
-- `POST /api/salary/add`
-- `GET /api/salary/:id`
+🧪 Future Enhancements
+HR role permissions
 
-### Leave
+Email notifications
 
-- `POST /api/leave/add`
-- `GET /api/leave`
-- `GET /api/leave/:id`
-- `PUT /api/leave/:id/status`
+Dashboard analytics
 
-### Settings and Dashboard
+Pagination & search
 
-- `PUT /api/setting/change-password`
-- `GET /api/dashboard/stats`
+File uploads (documents)
 
-## Notes
+🤝 Contributing
+Contributions are welcome!
+Feel free to fork the repository and submit a pull request.
 
-- The frontend currently uses a mix of local (`http://localhost:3000`) and deployed Render API URLs in different files. If you want fully local development, update those API base URLs before running the app end to end.
-- The backend accepts an `hr` role, but there is no dedicated HR dashboard or route protection flow implemented in the frontend yet.
-- Uploaded employee images are served from the backend via `public/uploads`.
-- There are currently no automated tests configured in this repository.
+📄 License
+This project is licensed under the MIT License.
 
-## Screenshots
+👤 Author
+Vicky Kumar
+BCA Student | Full-Stack Developer
+
+⭐ If you like this project, don’t forget to star the repository!
+
+---
 
 <img width="1919" height="899" alt="Screenshot 2026-02-01 234134" src="https://github.com/user-attachments/assets/dce548dd-2ac9-4235-bef7-109ca4db6ee2" />
 <img width="1919" height="901" alt="Screenshot 2026-02-01 234009" src="https://github.com/user-attachments/assets/ed032f5e-6922-48f7-b617-95caa50be892" />
